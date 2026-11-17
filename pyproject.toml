@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "app-builder-spec-compiler"
+version = "0.1.0"
+description = "Structured product spec compiled into prompts for AI app builders (Bolt, Rocket, Hercules, Lovable, Replit) with a spec linter"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = []
+
+[project.scripts]
+specc = "specc.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,40 @@
+{
+  "app": {
+    "name": "Quality Board",
+    "one_liner": "A dashboard where operations leads review first-pass quality and log defect causes.",
+    "audience": "Operations leads and reviewers at a delivery team"
+  },
+  "screens": [
+    {"id": "dashboard", "name": "Dashboard", "purpose": "Show this week's first-pass quality and the top three defect causes.",
+     "elements": ["quality percentage card", "weekly trend chart", "top causes list"],
+     "states": ["empty", "loading", "error", "success"], "navigation": ["defects", "review"]},
+    {"id": "defects", "name": "Defect log", "purpose": "List defects and let a reviewer record a root cause category for each.",
+     "elements": ["defect table with filters", "cause dropdown", "save button"],
+     "states": ["empty", "loading", "error", "success"], "navigation": ["dashboard"]},
+    {"id": "review", "name": "Reviewer calibration", "purpose": "Compare two reviewers' pass or fail verdicts on the same items.",
+     "elements": ["item list", "verdict toggles per reviewer", "agreement score"],
+     "states": ["empty", "loading", "error", "success"], "navigation": ["dashboard"]}
+  ],
+  "data": {
+    "entities": [
+      {"name": "Defect", "fields": [{"name": "title", "type": "text", "required": true},
+                                     {"name": "cause", "type": "enum", "required": true},
+                                     {"name": "found_at", "type": "datetime", "required": true}],
+       "relations": [{"kind": "belongs to", "to": "Reviewer"}]},
+      {"name": "Reviewer", "fields": [{"name": "name", "type": "text", "required": true},
+                                       {"name": "email", "type": "email", "required": true}]}
+    ]
+  },
+  "auth": {"method": "email_password",
+           "roles": [{"name": "lead", "can": "view everything and edit causes"}, {"name": "reviewer", "can": "log defects and record verdicts"}]},
+  "rules": [
+    "Quality percentage is passed items divided by total items for the selected week.",
+    "A defect must have a cause before it can be marked resolved.",
+    "Reviewer email addresses are visible only to leads, and a lead can delete a reviewer and all their data on request (privacy)."
+  ],
+  "acceptance": [
+    {"id": "AC1", "given": "a lead is signed in and there are defects this week", "when": "they open the dashboard", "then": "they see the quality percentage and the three most common causes"},
+    {"id": "AC2", "given": "a reviewer opens the defects screen", "when": "they save a defect without a cause", "then": "the save is blocked with a clear message"},
+    {"id": "AC3", "given": "two reviewers have judged the same items", "when": "a lead opens reviewer calibration", "then": "the agreement score is shown"}
+  ]
+}

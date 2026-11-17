@@ -1,0 +1,8 @@
+{
+  "_note": "Illustrative settings. Each builder's real input limits and best prompting style change over time and by plan; measure them for your builder and edit these values.",
+  "bolt": {"style": "staged", "max_chars": 4000, "preamble": "Use React and a simple, accessible layout."},
+  "rocket": {"style": "staged", "max_chars": 4000, "preamble": ""},
+  "hercules": {"style": "single", "max_chars": 8000, "preamble": ""},
+  "lovable": {"style": "staged", "max_chars": 5000, "preamble": ""},
+  "replit": {"style": "single", "max_chars": 8000, "preamble": ""}
+}
